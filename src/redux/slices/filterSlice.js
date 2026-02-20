@@ -7,7 +7,6 @@ const initialState = {
     name: "популярности",
     sortProperty: "rating",
   },
-  frut: "",
 };
 
 const filterSlice = createSlice({
@@ -25,7 +24,6 @@ const filterSlice = createSlice({
     },
   },
 });
-console.log("редьюсер", filterSlice.reducer);
 export const { setCategoryId, setSort, setCurrentPage } = filterSlice.actions;
 
 export default filterSlice.reducer;
