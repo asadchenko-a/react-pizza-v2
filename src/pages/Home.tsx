@@ -28,9 +28,7 @@ const Home: React.FC = () => {
   const isMounted = React.useRef(false);
 
   const categoryId = useSelector((state: RootState) => state.filter.categoryId);
-  const sortType = useSelector(
-    (state: RootState) => state.filter.sort.sortProperty,
-  );
+  const sort = useSelector((state: RootState) => state.filter.sort);
   const currentPage = useSelector(
     (state: RootState) => state.filter.currentPage,
   );
@@ -39,9 +37,9 @@ const Home: React.FC = () => {
   );
   const { items, status } = useSelector(selectPizzaData);
 
-  const onChangeCategory = (idx: number) => {
-    dispatch(setCategoryId(idx));
-  };
+  const onChangeCategory = React.useCallback((i: number) => {
+    dispatch(setCategoryId(i));
+  }, []);
 
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
@@ -84,15 +82,17 @@ const Home: React.FC = () => {
   // Если был первый рендер, то проверяем URL-параметры и сохраняем в редаксе
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params = qs.parse(
+        window.location.search.substring(1),
+      ) as unknown as SearchPizzaParms;
 
-      const sort =
-        sortList.find((obj) => obj.sortProperty === params.sortType) ||
-        sortList[0];
+      const sort = sortList.find((obj) => obj.sortProperty === params.sortBy);
       dispatch(
         setFilters({
-          ...params,
-          sort,
+          searchValue: params.search,
+          categoryId: Number(params.category) || 0,
+          currentPage: Number(params.currentPage),
+          sort: sort || sortList[0],
         }),
       );
       isSearch.current = true;
@@ -120,7 +120,7 @@ const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort />
+        <Sort value={sort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === "error" ? (
