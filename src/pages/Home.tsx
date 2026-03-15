@@ -8,18 +8,17 @@ import {
   setCategoryId,
   setCurrentPage,
   setFilters,
-} from "../redux/slices/filterSlice";
+} from "../redux/filter/slice";
 import Categories from "../components/Categories";
 import Sort, { sortList } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
-import {
-  fetchPizzas,
-  SearchPizzaParms,
-  selectPizzaData,
-} from "../redux/slices/pizzaSlice";
+
 import { RootState, useAppDispatch } from "../redux/store";
+import { selectPizzaData } from "../redux/pizza/selectors";
+import { fetchPizzas } from "../redux/pizza/asyncActions";
+import { SearchPizzaParms } from "../redux/pizza/types";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -46,8 +45,8 @@ const Home: React.FC = () => {
   };
 
   const getPizzas = async () => {
-    const sortBy = sortType.replace("-", "");
-    const order = sortType.includes("-") ? "asc" : "desc";
+    const sortBy = sort.sortProperty.replace("-", "");
+    const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue
       ? `&search=${encodeURIComponent(searchValue)}`
@@ -70,14 +69,14 @@ const Home: React.FC = () => {
   React.useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
-        sortType,
+        sort,
         categoryId,
         currentPage,
       });
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-  }, [categoryId, sortType, searchValue, currentPage]);
+  }, [categoryId, sort, searchValue, currentPage]);
 
   // Если был первый рендер, то проверяем URL-параметры и сохраняем в редаксе
   React.useEffect(() => {
@@ -106,7 +105,7 @@ const Home: React.FC = () => {
       getPizzas();
     }
     isSearch.current = false;
-  }, [categoryId, sortType, searchValue, currentPage]);
+  }, [categoryId, sort, searchValue, currentPage]);
 
   const pizzas = Array.isArray(items)
     ? items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
