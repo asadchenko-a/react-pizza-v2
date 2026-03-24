@@ -9,6 +9,8 @@ import Home from "./pages/Home";
 import "./scss/app.scss";
 import MainLayout from "./layouts/MainLayout";
 import { Suspense } from "react";
+import Checkout from "./pages/Checkout";
+import CheckoutSuccess from "./pages/CheckoutSuccess";
 
 const Cart = React.lazy(
   () => import(/*webpackChunkName:"Cart"*/ "./pages/Cart"),
@@ -38,6 +40,23 @@ function App() {
           element={
             <Suspense fallback={<div>Идёт загрузка ...</div>}>
               <FullPizza />
+            </Suspense>
+          }
+        />
+        <Route
+          path="checkout"
+          element={
+            <Suspense fallback={<div>Загрузка оформления заказа...</div>}>
+              <Checkout />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="checkout/success/:id"
+          element={
+            <Suspense fallback={<div>Загрузка подтверждения заказа...</div>}>
+              <CheckoutSuccess />
             </Suspense>
           }
         />
