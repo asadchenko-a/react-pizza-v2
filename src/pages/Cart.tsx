@@ -149,9 +149,9 @@ const Cart: React.FC = () => {
 
               <span>Вернуться назад</span>
             </Link>
-            <div className="button pay-btn" onClick={handleCheckout}>
+            <button className="button pay-btn" onClick={handleCheckout}>
               <span>Оплатить сейчас</span>
-            </div>
+            </button>
           </div>
         </div>
       </div>

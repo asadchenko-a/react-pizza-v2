@@ -2,14 +2,11 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-// import Cart from "./pages/Cart";
-// import FullPizza from "./pages/FullPizza";
-// import NotFound from "./pages/NotFound";
 
 import "./scss/app.scss";
 import MainLayout from "./layouts/MainLayout";
 import { Suspense } from "react";
-import Checkout from "./pages/Checkout";
+
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 
 const Cart = React.lazy(
@@ -20,6 +17,10 @@ const FullPizza = React.lazy(
 );
 const NotFound = React.lazy(
   () => import(/*webpackChunkName:"NotFound"*/ "./pages/NotFound"),
+);
+
+const Checkout = React.lazy(
+  () => import(/*webpackChunkName:"Checkout"*/ "./pages/Checkout"),
 );
 
 function App() {
