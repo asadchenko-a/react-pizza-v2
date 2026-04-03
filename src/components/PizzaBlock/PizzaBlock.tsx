@@ -17,14 +17,14 @@ type PizzaBlockProps = {
   rating: number;
 };
 
-const PizzaBlock: React.FC<PizzaBlockProps> = ({
+const PizzaBlock = ({
   id,
   title,
   price,
   imageUrl,
   sizes,
   types,
-}) => {
+}: PizzaBlockProps) => {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartItemById(id));
   const [activeType, setActiveType] = React.useState(0);

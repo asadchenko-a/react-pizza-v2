@@ -1,6 +1,4 @@
-import React from "react";
-
-const Checkout: React.FC = () => {
+const Checkout = () => {
   return (
     <div className="container">
       <h1>Оформление заказа</h1>

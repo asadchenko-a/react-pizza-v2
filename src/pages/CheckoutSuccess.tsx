@@ -1,7 +1,6 @@
-import React from "react";
 import { useParams, Link } from "react-router-dom";
 
-const CheckoutSuccess: React.FC = () => {
+const CheckoutSuccess = () => {
   const { id } = useParams<{ id: string }>();
 
   return (

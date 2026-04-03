@@ -20,7 +20,7 @@ import { selectPizzaData } from "../redux/pizza/selectors";
 import { fetchPizzas } from "../redux/pizza/asyncActions";
 import { SearchPizzaParms } from "../redux/pizza/types";
 
-const Home: React.FC = () => {
+const Home = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isSearch = React.useRef(false);
