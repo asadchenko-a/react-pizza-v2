@@ -1,13 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "../components/CartItem";
 import CartEmpty from "../components/CartEmpty";
 import { selectCart } from "../redux/cart/selectors";
 import { clearItems } from "../redux/cart/slice";
 
-const Cart: React.FC = () => {
+const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { totalPrice, items } = useSelector(selectCart);
 
   const totalCount = items.reduce(
@@ -19,6 +19,14 @@ const Cart: React.FC = () => {
     if (window.confirm("Очистить корзину?")) {
       dispatch(clearItems());
     }
+  };
+  const handleCheckout = () => {
+    if (items.length === 0) {
+      alert("Ваша корзина пуста! Добавьте товары перед оплатой.");
+      navigate("/cart");
+      return;
+    }
+    navigate("/checkout");
   };
 
   if (!totalPrice) {
@@ -140,9 +148,9 @@ const Cart: React.FC = () => {
 
               <span>Вернуться назад</span>
             </Link>
-            <div className="button pay-btn">
+            <button className="button pay-btn" onClick={handleCheckout}>
               <span>Оплатить сейчас</span>
-            </div>
+            </button>
           </div>
         </div>
       </div>

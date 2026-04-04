@@ -1,23 +1,23 @@
-import React from "react";
+import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-// import Cart from "./pages/Cart";
-// import FullPizza from "./pages/FullPizza";
-// import NotFound from "./pages/NotFound";
 
 import "./scss/app.scss";
 import MainLayout from "./layouts/MainLayout";
-import { Suspense } from "react";
 
-const Cart = React.lazy(
-  () => import(/*webpackChunkName:"Cart"*/ "./pages/Cart"),
-);
-const FullPizza = React.lazy(
+import CheckoutSuccess from "./pages/CheckoutSuccess";
+
+const Cart = lazy(() => import(/*webpackChunkName:"Cart"*/ "./pages/Cart"));
+const FullPizza = lazy(
   () => import(/*webpackChunkName:"FullPizza"*/ "./pages/FullPizza"),
 );
-const NotFound = React.lazy(
+const NotFound = lazy(
   () => import(/*webpackChunkName:"NotFound"*/ "./pages/NotFound"),
+);
+
+const Checkout = lazy(
+  () => import(/*webpackChunkName:"Checkout"*/ "./pages/Checkout"),
 );
 
 function App() {
@@ -41,6 +41,16 @@ function App() {
             </Suspense>
           }
         />
+        <Route
+          path="checkout"
+          element={
+            <Suspense fallback={<div>Загрузка оформления заказа...</div>}>
+              <Checkout />
+            </Suspense>
+          }
+        />
+
+        <Route path="checkout/success/:id" element={<CheckoutSuccess />} />
         <Route
           path="*"
           element={
