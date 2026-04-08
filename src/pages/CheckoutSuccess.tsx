@@ -4,11 +4,28 @@ const CheckoutSuccess = () => {
   const { id } = useParams<{ id: string }>();
 
   return (
-    <div className="container">
-      <h1>Спасибо за заказ!</h1>
-      <p>Номер вашего заказа: #{id}</p>
-      <Link to="/">На главную</Link>
-      <Link to="/cart">В корзину</Link>
+    <div className="container container--cart">
+      <div className="cart cart--empty">
+        <h2>Спасибо за заказ! 🎉</h2>
+        <p>
+          Ваш заказ успешно оформлен.
+          <br />
+          Номер заказа: <b>#{id}</b>
+        </p>
+
+        <div className="cart__bottom-buttons">
+          <Link
+            to="/"
+            className="button button--outline button--add go-back-btn"
+          >
+            <span>На главную</span>
+          </Link>
+
+          <Link to="/cart" className="button pay-btn button--outline">
+            <span>В корзину</span>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
