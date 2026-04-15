@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectCart } from "../redux/cart/selectors";
@@ -16,6 +16,8 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(false);
   const [orderCompleted, setOrderCompleted] = useState(false);
 
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
     if (!loading && !orderCompleted && items.length === 0) {
       alert("Корзина пуста");
@@ -23,7 +25,15 @@ const CheckoutPage = () => {
     }
   }, [items, loading, orderCompleted, navigate]);
 
-  const handleCheckout = async (deliveryData: {
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
+
+  const handleCheckout = (deliveryData: {
     name: string;
     phone: string;
     address: string;
@@ -32,7 +42,7 @@ const CheckoutPage = () => {
     setLoading(true);
 
     // имитация async оплаты
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       // создаём order
       const order: Order = {
         id: crypto.randomUUID(),

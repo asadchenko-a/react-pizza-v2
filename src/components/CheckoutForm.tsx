@@ -1,3 +1,4 @@
+import { IMaskInput } from "react-imask";
 import React, { useState } from "react";
 
 type CheckoutFormProps = {
@@ -29,8 +30,11 @@ const CheckoutForm = ({ onSubmit, loading }: CheckoutFormProps) => {
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!form.name) newErrors.name = "Имя обязательно";
-    if (!form.phone || !/^\+?\d{10,15}$/.test(form.phone))
+    const phoneDigits = form.phone.replace(/\D/g, "");
+
+    if (!phoneDigits || phoneDigits.length < 11 || phoneDigits.length > 11) {
       newErrors.phone = "Неверный телефон";
+    }
     if (!form.address) newErrors.address = "Адрес обязателен";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -57,11 +61,14 @@ const CheckoutForm = ({ onSubmit, loading }: CheckoutFormProps) => {
       </div>
       <div className="checkout__group">
         <label>Телефон:</label>
-        <input
+        <IMaskInput
+          mask="+7 (000) 000-00-00"
           name="phone"
           value={form.phone}
-          onChange={handleChange}
+          onAccept={(value) => setForm({ ...form, phone: value })}
+          placeholder="+7 (***) ***-**-**"
           disabled={loading}
+          className="checkout__input"
         />
         {errors.phone && (
           <span className="checkout__error">{errors.phone}</span>
