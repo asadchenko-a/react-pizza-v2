@@ -23,6 +23,15 @@ function Header() {
     isMounted.current = true;
   }, [items]);
 
+  const hideSearchPaths = ["/cart", "/checkout"];
+  const isSuccessPage = location.pathname.startsWith("/checkout/success");
+  const shouldShowSearch =
+    !hideSearchPaths.includes(location.pathname) && !isSuccessPage;
+
+  const hideCartPaths = ["/cart"];
+  const shouldShowCart =
+    !hideCartPaths.includes(location.pathname) && !isSuccessPage;
+
   return (
     <div className="header">
       <div className="container">
@@ -35,9 +44,9 @@ function Header() {
             </div>
           </div>
         </Link>
-        {location.pathname !== "/cart" && <Search />}
+        {shouldShowSearch && <Search />}
         <div className="header__cart">
-          {location.pathname !== "/cart" && (
+          {shouldShowCart && (
             <Link to="/cart" className="button button--cart">
               <span>{totalPrice} ₽</span>
               <div className="button__delimiter"></div>
