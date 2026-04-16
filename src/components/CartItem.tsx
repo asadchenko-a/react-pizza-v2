@@ -7,7 +7,7 @@ type CartItemProps = {
   title: string;
   type: string;
   price: number;
-  sizes: number;
+  size: number;
   count: number;
   imageUrl: string;
 };
@@ -17,7 +17,7 @@ const CartItemBlock = ({
   title,
   type,
   price,
-  sizes,
+  size,
   count,
   imageUrl,
 }: CartItemProps) => {
@@ -43,7 +43,7 @@ const CartItemBlock = ({
       <div className="cart__item-info">
         <h3>{title}</h3>
         <p>
-          {type}, {sizes} см.
+          {type}, {size} см.
         </p>
       </div>
       <div className="cart__item-count">
